@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    include: server
+  application:
+    name: apigateway
+  cloud: # Reactive Gateway
+    gateway:
+      routes:
+        - id: positive
+          predicates:
+            - Path=/positive/**
+          uri: lb://positive # Load Balancing
+        - id: negative
+          predicates:
+            - Path=/negative/**
+          uri: lb://negative
+        - id: account
+          predicates:
+            - Path=/account/**
+          uri: lb://account
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
