@@ -11,6 +11,9 @@ import org.springframework.web.reactive.function.client.WebClient
 class WebClientConfig(
     val env: Environment
 ) {
+    /**
+     * 내용을 AI로 분류하기 위해 FastAPI로 전송
+     */
     @Bean
     fun webClient(): WebClient {
         return WebClient.builder()
