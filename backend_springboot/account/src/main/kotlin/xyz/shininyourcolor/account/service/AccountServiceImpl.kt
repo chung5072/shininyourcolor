@@ -19,7 +19,7 @@ class AccountServiceImpl(
      * 처음 설치한 유저의 정보를 저장
      *
      * @param newbieInfo 설치한 유저의 정보
-     * - uuid: 유저 id
+     * - uuid: 유저의 안드로이드 id
      * - fcmToken: fcm token
      */
     override fun saveNewbieInfo(newbieInfo: NewbieInfo) {
@@ -36,7 +36,7 @@ class AccountServiceImpl(
      * 계정 활성화 혹은 비활성화 버튼을 누른 경우
      *
      * @param activation 계정 활성화 혹은 비활성화 누른 유저의 정보
-     * - uuid: 유저 id
+     * - uuid: 유저의 안드로이드 id
      * - activate: 활성화 | 비활성화 여부
      */
     override fun getActivation(activation: Activation) {
@@ -103,7 +103,7 @@ class AccountServiceImpl(
     /**
      * USERS 테이블에 각 id에 해당하는 활성화 | 비활성화 및 시간 정보 업데이트
      *
-     * @param uuid 유저 id
+     * @param uuid 유저의 안드로이드 id
      * @param activate 해당 유저의 활성화 | 비활성화 여부
      */
     private fun changeActivation(uuid: String, activate: Boolean) {
