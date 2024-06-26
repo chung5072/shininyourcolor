@@ -29,11 +29,11 @@ class PositiveTalkController(
      * 처음 앱을 설치한 경우
      *
      * @param uncategorizedTalk
-     * - uuid: 유저 id
+     * - uuid: 유저 안드로이드 id
      * - time: 내용을 전송한 시간
      * - content: 분류가 되지 않은 내용
      *
-     * @return CategorizedTalk 입력한 문장과 분류 결과 전송
+     * @return CategorizedTalk 입력한 문장과 분류 결과
      */
     @PostMapping("/send")
     fun categorizeTalk(@RequestBody uncategorizedTalk: UncategorizedTalk)
