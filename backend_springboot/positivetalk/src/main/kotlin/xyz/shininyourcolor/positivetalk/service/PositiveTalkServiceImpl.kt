@@ -25,17 +25,17 @@ class PositiveTalkServiceImpl(
      * @return String 입력한 문장의 분류 결과
      */
     override fun categorizeContent(uncategorizedTalk: UncategorizedTalk): String {
-//        val categorizationResult = categorizeByModel(uncategorizedTalk.content).block()
+        val categorizationResult = categorizeByModel(uncategorizedTalk.content).block()
 
         // 테스트 용 분류 결과
-        val category = "어디에도 속하지 않는 문장"
+//        val category = "어디에도 속하지 않는 문장"
 
         saveCategorizedTalk(
             uncategorizedTalk = uncategorizedTalk,
-            category = category
+            category = categorizationResult!!.category
         )
 
-        return category
+        return categorizationResult.category
     }
 
     /**
@@ -81,12 +81,12 @@ class PositiveTalkServiceImpl(
             typeContent = uncategorizedTalk.content
         )
         positiveTalkPageContents.classificationId = when (category) {
-            "어디에도 속하지 않는 문장" -> 1
-            "비교하는 표현" -> 2
-            "공격적인 표현" -> 3
-            "특정 인물에 대한 칭찬" -> 4
-            "특정 인물에 대한 응원" -> 5
-            "불특정 인물에 대한 칭찬" -> 6
+            "none" -> 1
+            "compare" -> 2
+            "offensive" -> 3
+            "specific_praise" -> 4
+            "specific_cheer" -> 5
+            "unspecific_praise" -> 6
             else -> 7 // 불특정 인물에 대한 응원
         }
         ptpcRepository.save(positiveTalkPageContents)
