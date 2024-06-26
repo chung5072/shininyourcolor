@@ -1,14 +1,14 @@
 spring:
   profiles:
     include:
-      - fcm
+      - fastapi
       - server
   application:
-    name: account
+    name: positivetalk
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       format-sql: true
 
 eureka:

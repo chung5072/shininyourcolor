@@ -13,7 +13,7 @@ class AccountController(
     /**
      * 서버가 잘 연결됐는지 테스트용
      *
-     * @return 서버에 대한 정보
+     * @return String 서버에 대한 정보
      */
     @GetMapping("/welcome")
     fun welcome(): String {

@@ -2,6 +2,7 @@ package xyz.shininyourcolor.account.service
 
 import com.google.firebase.messaging.BatchResponse
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingException
 import com.google.firebase.messaging.MulticastMessage
 import org.springframework.stereotype.Service
 import xyz.shininyourcolor.account.db.entity.Users
@@ -22,7 +23,7 @@ class AccountServiceImpl(
      * - fcmToken: fcm token
      */
     override fun saveNewbieInfo(newbieInfo: NewbieInfo) {
-        // TODO - DB: USERS 테이블을 불러와서 user_uuid, user_token create
+        // USERS 테이블을 불러와서 user_uuid, user_token create
         val users = Users(
             uuid = newbieInfo.uuid,
             fcmToken = newbieInfo.fcmToken
@@ -49,9 +50,12 @@ class AccountServiceImpl(
 
     /**
      * 특정 시간마다 해당 유저가 설치했는지 확인
+     * 
+     * @exception IllegalArgumentException 
+     * 아직 설치한 유저가 한 명도 없을 경우 해당 내용 출력
      */
     override fun checkInstall() {
-        // TODO - DB: USERS 테이블에 있는 정보들을 불러오기
+        // USERS 테이블에 있는 정보들을 불러오기
         val allUsersIdAndToken = userRepository.findUUIDAndFCMToken()
         // uuid 값으로 리스트 생성
         val uuidList = allUsersIdAndToken.map { eachInfo ->
@@ -74,13 +78,21 @@ class AccountServiceImpl(
             val responses = response.responses
 
             for ((index, eachRes) in responses.withIndex()) {
+                // 전송을 실패했을 때
                 if (!(eachRes.isSuccessful)) {
-                    println("유저 ${uuidList[index]}는 삭제한 것으로 보임")
+                    val exceptionMessage = eachRes.exception.message
+                    
+                    // 에러 메세지에 따라서 다른 처리를 진행
+                    if (exceptionMessage?.contains("not found") == true) {
+                        println("유저 ${uuidList[index]}는 삭제한 것으로 보임")
 
-                    changeActivation(
-                        uuid = uuidList[index],
-                        activate = false
-                    )
+                        changeActivation(
+                            uuid = uuidList[index],
+                            activate = false
+                        )
+                    } else {
+                        println("설정 파일 확인")
+                    }
                 }
             }
         } catch (e: IllegalArgumentException) {
