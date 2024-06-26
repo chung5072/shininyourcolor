@@ -6,14 +6,14 @@ spring:
   cloud: # Reactive Gateway
     gateway:
       routes:
-        - id: positive
+        - id: positivetalk
           predicates:
-            - Path=/positive/**
-          uri: lb://positive # Load Balancing
-        - id: negative
+            - Path=/positivetalk/**
+          uri: lb://positivetalk # Load Balancing
+        - id: negativetalk
           predicates:
-            - Path=/negative/**
-          uri: lb://negative
+            - Path=/negativetalk/**
+          uri: lb://negativetalk
         - id: account
           predicates:
             - Path=/account/**

@@ -49,6 +49,9 @@ class AccountServiceImpl(
 
     /**
      * 특정 시간마다 해당 유저가 설치했는지 확인
+     * 
+     * @exception IllegalArgumentException 
+     * 아직 설치한 유저가 한 명도 없을 경우 해당 내용 출력
      */
     override fun checkInstall() {
         // TODO - DB: USERS 테이블에 있는 정보들을 불러오기
