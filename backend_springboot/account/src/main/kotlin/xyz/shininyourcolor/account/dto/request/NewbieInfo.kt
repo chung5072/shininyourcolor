@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull
  */
 data class NewbieInfo(
     /**
-     * 새로 설치한 유저의 id
+     * 새로 설치한 유저의 안드로이드 id
      */
     @JsonProperty("uuid")
     @NotNull

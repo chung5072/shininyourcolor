@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 @Entity
 data class Users(
     /**
-     * 유저의 id
+     * 유저의 안드로이드 id
      */
     @Column(name = "uuid", nullable = false)
     var uuid: String,

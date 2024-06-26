@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull
  */
 data class Activation(
     /**
-     * 유저의 id
+     * 유저의 안드로이드 id
      */
     @JsonProperty("uuid")
     @NotNull

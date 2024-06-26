@@ -11,7 +11,7 @@ interface UserRepository : JpaRepository<Users, Long> {
      * users 테이블에서 유저의 id와 token값을 가져옴
      *
      * @return List<NewbieInfo>
-     *     - uuid: 유저의 id
+     *     - uuid: 유저의 안드로이드 id
      *     - fcmToken: 유저의 Firebase Cloud Message Token
      */
     @Query(value = "select " +
