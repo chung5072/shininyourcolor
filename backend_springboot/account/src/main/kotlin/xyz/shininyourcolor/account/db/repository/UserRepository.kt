@@ -2,13 +2,15 @@ package xyz.shininyourcolor.account.db.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import xyz.shininyourcolor.account.dto.request.NewbieInfo
 import xyz.shininyourcolor.account.db.entity.Users
+import xyz.shininyourcolor.account.dto.response.UserActivation
 
 interface UserRepository : JpaRepository<Users, Long> {
 
     /**
-     * users 테이블에서 유저의 id와 token값을 가져옴
+     * users 테이블에서 유저의 안드로이드 id와 token값을 가져옴
      *
      * @return List<NewbieInfo>
      *     - uuid: 유저의 안드로이드 id
@@ -19,4 +21,8 @@ interface UserRepository : JpaRepository<Users, Long> {
             "uuid, fcmToken" +
             ") from Users")
     fun findUUIDAndFCMToken(): List<NewbieInfo>
+
+    /**
+     * TODO 비활성화할 때 글 공유 중지를 요청한 경우
+     */
 }

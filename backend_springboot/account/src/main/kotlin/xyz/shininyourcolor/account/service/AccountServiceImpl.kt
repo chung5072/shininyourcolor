@@ -2,13 +2,13 @@ package xyz.shininyourcolor.account.service
 
 import com.google.firebase.messaging.BatchResponse
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingException
 import com.google.firebase.messaging.MulticastMessage
 import org.springframework.stereotype.Service
 import xyz.shininyourcolor.account.db.entity.Users
 import xyz.shininyourcolor.account.db.repository.UserRepository
-import xyz.shininyourcolor.account.dto.request.Activation
 import xyz.shininyourcolor.account.dto.request.NewbieInfo
+import xyz.shininyourcolor.account.dto.request.UserUUID
+import xyz.shininyourcolor.account.dto.response.UserActivation
 import java.time.LocalDateTime
 
 @Service("accountService")
@@ -33,20 +33,8 @@ class AccountServiceImpl(
     }
 
     /**
-     * 계정 활성화 혹은 비활성화 버튼을 누른 경우
-     *
-     * @param activation 계정 활성화 혹은 비활성화 누른 유저의 정보
-     * - uuid: 유저의 안드로이드 id
-     * - activate: 활성화 | 비활성화 여부
+     * TODO 비활성화할 때 글 공유 중지를 요청한 경우
      */
-    override fun getActivation(activation: Activation) {
-        // TODO - fun: changeActivation()을 통해 해당 정보 update
-
-        changeActivation(
-            uuid = activation.uuid,
-            activate = activation.activate
-        )
-    }
 
     /**
      * 특정 시간마다 해당 유저가 설치했는지 확인

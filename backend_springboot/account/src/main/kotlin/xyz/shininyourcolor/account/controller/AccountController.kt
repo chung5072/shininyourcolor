@@ -1,8 +1,11 @@
 package xyz.shininyourcolor.account.controller
 
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import xyz.shininyourcolor.account.dto.request.Activation
 import xyz.shininyourcolor.account.dto.request.NewbieInfo
+import xyz.shininyourcolor.account.dto.request.UserUUID
+import xyz.shininyourcolor.account.dto.response.BaseResponseBody
+import xyz.shininyourcolor.account.dto.response.UserActivation
 import xyz.shininyourcolor.account.service.AccountService
 
 @RestController
@@ -24,27 +27,23 @@ class AccountController(
      * 처음 앱을 설치한 경우
      *
      * @param newbieInfo
-     * - uuid: 유저 id
+     * - uuid: 유저의 안드로이드 ID
      * - fcmToken: fcm token 값
      */
     @PostMapping("/newbie")
-    fun saveInstallInfo(@RequestBody newbieInfo: NewbieInfo) {
+    fun saveInstallInfo(@RequestBody newbieInfo: NewbieInfo): ResponseEntity<BaseResponseBody> {
         println(newbieInfo.uuid)
         println(newbieInfo.fcmToken)
 
         accountService.saveNewbieInfo(newbieInfo)
+        println("성공 - 첫 설치 유저의 안드로이드 ID 및 fcm token")
+
+        return ResponseEntity.ok(BaseResponseBody(
+            statusCode = 200, message =  "Data Save Success"
+        ))
     }
 
     /**
-     * 계정 활성화 혹은 비활성화 버튼을 누른 경우
-     *
-     * @param activation
-     * - uuid: 유저의 id
-     * - activate: 해당 유저의 활성화 | 비활성화 여부
+     * TODO 비활성화할 때 글 공유 중지를 요청한 경우
      */
-    @PostMapping("/activate")
-    fun changeActivation(@RequestBody activation: Activation) {
-        println(activation.uuid)
-        println(activation.activate)
-    }
 }
