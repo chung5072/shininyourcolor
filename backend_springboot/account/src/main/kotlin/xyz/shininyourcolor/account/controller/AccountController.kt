@@ -3,9 +3,7 @@ package xyz.shininyourcolor.account.controller
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import xyz.shininyourcolor.account.dto.request.NewbieInfo
-import xyz.shininyourcolor.account.dto.request.UserUUID
 import xyz.shininyourcolor.account.dto.response.BaseResponseBody
-import xyz.shininyourcolor.account.dto.response.UserActivation
 import xyz.shininyourcolor.account.service.AccountService
 
 @RestController

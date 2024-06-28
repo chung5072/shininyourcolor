@@ -13,7 +13,7 @@ class FCMUtil(
      */
     @Scheduled(fixedDelay = 10_000L)
     fun checkInstall() {
-        println("스케줄러 실행")
+        println("확인 - 스케줄러 실행")
         accountService.checkInstall()
     }
 }

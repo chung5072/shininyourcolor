@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service
 import xyz.shininyourcolor.account.db.entity.Users
 import xyz.shininyourcolor.account.db.repository.UserRepository
 import xyz.shininyourcolor.account.dto.request.NewbieInfo
-import xyz.shininyourcolor.account.dto.request.UserUUID
-import xyz.shininyourcolor.account.dto.response.UserActivation
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import kotlin.math.abs
 
 @Service("accountService")
 class AccountServiceImpl(
@@ -72,32 +72,71 @@ class AccountServiceImpl(
                     
                     // 에러 메세지에 따라서 다른 처리를 진행
                     if (exceptionMessage?.contains("not found") == true) {
-                        println("유저 ${uuidList[index]}는 삭제한 것으로 보임")
+                        println("체크 - 유저 ${uuidList[index]}는 삭제한 것으로 보임")
 
-                        changeActivation(
-                            uuid = uuidList[index],
-                            activate = false
-                        )
+                        changeInstallStatus(uuid = uuidList[index])
                     } else {
-                        println("설정 파일 확인")
+                        println("에러 - 설정 파일 확인")
                     }
                 }
             }
         } catch (e: IllegalArgumentException) {
-            println("현재 설치한 인원이 하나도 없음")
+            println("에러 - 현재 설치한 인원이 하나도 없음")
         }
     }
 
     /**
-     * USERS 테이블에 각 id에 해당하는 활성화 | 비활성화 및 시간 정보 업데이트
+     * USERS 테이블에 각 안드로이드 ID 해당하는 유저가 삭제했을 때
      *
      * @param uuid 유저의 안드로이드 id
-     * @param activate 해당 유저의 활성화 | 비활성화 여부
      */
-    private fun changeActivation(uuid: String, activate: Boolean) {
+    private fun changeInstallStatus(uuid: String) {
         // 현재 시간
         val curr = LocalDateTime.now()
+        // 해당 안드로이드 ID 유저의 정보를 가져옴
+        val user = userRepository.findByUuid(uuid)
+        println("체크 - 유저의 설치 상태: ${user.installStatus}" +
+                "유저의 첫 삭제 감시 날짜: ${user.uninstallInitDate} +" +
+                "유저의 최근 삭제 감지 날짜: ${user.uninstallRecentDate} +" +
+                "유저의 공유 상태: ${user.shareStatus}")
 
-        // TODO - DB: uuid와 activate정보를 update + 비활성화인 경우 시간 추가
+        when {
+            // 공유 상태가 중지되어있으면 바로 종료
+            user.shareStatus == 0 -> return
+            // 공유 상태가 중지가 아니고, 처음 삭제한 것으로 감지된 상태이면
+            user.uninstallInitDate == null -> {
+                // 초기 삭제이므로 설치 상태를 삭제로 변경
+                user.installStatus = 0
+                // 처음 삭제가 감지된 시간 및 가장 최근에 삭제를 감지한 시간을
+                // 현재 서버가 감지한 시간으로 저장
+                user.uninstallInitDate = curr // 처음 삭제가 감지된 시간
+                user.uninstallRecentDate = curr // 가장 최근에 삭제를 감지한 시간
+            }
+            // 공유 상태가 중지도 아니고, 이미 삭제했다고 감지된 상태면
+            else -> {
+                // 가장 최근에 감지된 시간를 현재 시간으로 변경
+                user.uninstallRecentDate = curr
+
+                // 일정 시간이 많이 지나있다면 공유 상태를 중지하는 것으로 변경
+                if (curr.differentSeconds(user.uninstallInitDate!!) > 30) {
+                    user.shareStatus = 0
+                }
+            }
+        }
+
+        // 변경 사항을 저장
+        userRepository.save(user)
+    }
+
+    /**
+     * 두 시간의 차이를 계산하는 함수
+     * 해당 함수를 부르는 함수는 마지막 시간
+     * 
+     * @param initDate 초기 시간
+     * 
+     * @return long 두 시간의 차이
+     */
+    private fun LocalDateTime.differentSeconds(initDate: LocalDateTime): Long {
+        return abs(ChronoUnit.SECONDS.between(this, initDate))
     }
 }

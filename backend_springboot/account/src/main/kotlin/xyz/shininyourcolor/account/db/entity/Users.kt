@@ -45,7 +45,9 @@ data class Users(
     var uninstallRecentDate: LocalDateTime? = null
 
     /**
-     * 비활성화시 글을 보여줄 것인지 설정 - 앱에서 직접 설정
+     * 비활성화시 글을 보여줄 것인지 설정
+     * - 앱에서 직접 설정
+     * - 삭제가 일정 시간 이상 길어지면 공유 상태 중지
      */
     @Column(name = "share_status", nullable = true)
     var shareStatus: Int = 1

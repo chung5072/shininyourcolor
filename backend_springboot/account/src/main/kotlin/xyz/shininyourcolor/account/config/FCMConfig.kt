@@ -34,7 +34,7 @@ class FCMConfig(
 
                 FirebaseApp.initializeApp(options)
             } catch (fileException: FileNotFoundException) {
-                println("해당 위치에 파일이 없음")
+                println("에러 - 해당 위치에 파일이 없음")
             }
         }
     }

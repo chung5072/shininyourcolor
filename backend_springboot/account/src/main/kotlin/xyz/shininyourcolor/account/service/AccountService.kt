@@ -1,8 +1,6 @@
 package xyz.shininyourcolor.account.service
 
 import xyz.shininyourcolor.account.dto.request.NewbieInfo
-import xyz.shininyourcolor.account.dto.request.UserUUID
-import xyz.shininyourcolor.account.dto.response.UserActivation
 
 interface AccountService {
     // 처음 설치한 유저의 정보를 저장
