@@ -27,10 +27,10 @@ data class Users(
     var userId: Long = 0L
 
     /**
-     * 해당 유저의 활성화 정보
+     * 해당 유저의 설치 정보
      */
-    @Column(name = "activate", nullable = true)
-    var activate: Int = 1
+    @Column(name = "install_status", nullable = true)
+    var installStatus: Int = 1
 
     /**
      * 유저가 앱을 지운 것이 확인된 첫 날짜
@@ -41,6 +41,12 @@ data class Users(
     /**
      * 유저가 앱을 지운 것이 확인된 가장 최근 날짜
      */
-    @Column(name = "uninstall_last_date", nullable = true)
-    var uninstallLastDate: LocalDateTime? = null
+    @Column(name = "uninstall_recent_date", nullable = true)
+    var uninstallRecentDate: LocalDateTime? = null
+
+    /**
+     * 비활성화시 글을 보여줄 것인지 설정 - 앱에서 직접 설정
+     */
+    @Column(name = "share_status", nullable = true)
+    var shareStatus: Int = 1
 }
