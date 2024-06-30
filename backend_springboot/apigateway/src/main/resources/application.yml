@@ -10,10 +10,10 @@ spring:
           predicates:
             - Path=/positivetalk/**
           uri: lb://positivetalk # Load Balancing
-        - id: negativetalk
+        - id: bottledupfeeling
           predicates:
-            - Path=/negativetalk/**
-          uri: lb://negativetalk
+            - Path=/bottledupfeeling/**
+          uri: lb://bottledupfeeling
         - id: account
           predicates:
             - Path=/account/**
