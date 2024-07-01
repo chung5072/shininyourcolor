@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    include: server
+  application:
+    name: discoveryservice
+
+eureka:
+  client:
+    regiser-with-eureka: false
+    fetch-registry: false
