@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -19,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import xyz.shininyourcolor.starwhisper.R
 import xyz.shininyourcolor.starwhisper.showMessage
+import xyz.shininyourcolor.starwhisper.ui.account.AccountDialog
 import xyz.shininyourcolor.starwhisper.ui.theme.StarWhisperTheme
 
 @Composable
@@ -33,6 +36,12 @@ fun MainScreen() {
 @Composable
 fun StarryCampsiteBackground() {
     val context = LocalContext.current
+
+    val showAccountDialog = remember { mutableStateOf(false) }
+
+    if (showAccountDialog.value) {
+        AccountDialog(onDismiss = {showAccountDialog.value = false})
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -76,6 +85,7 @@ fun StarryCampsiteBackground() {
                             context = context,
                             message = "계정 관리하는 화면"
                         )
+                        showAccountDialog.value = true
                     })
                 // UI: 모닥불
                 Box(modifier = Modifier
